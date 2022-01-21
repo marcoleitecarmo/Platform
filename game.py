@@ -1,4 +1,4 @@
-from obj import Obj, Hero
+from obj import Obj, Hero, Enemy
 import pygame
 
 
@@ -24,7 +24,9 @@ class Game:
         self.crystal2 = Obj('assets/crystal.png', 870, 400, self.all_sprites, self.crystal)
         self.crystal3 = Obj('assets/crystal.png', 1155, 400, self.all_sprites, self.crystal)
 
-        self.enemy1 = Obj('assets/enemy0.png', 520, 502, self.all_sprites, self.enemy)
+        self.enemy1 = Enemy('assets/enemy0.png', 520, 502, self.all_sprites, self.enemy)
+        self.enemy2 = Enemy('assets/enemy0.png', 800, 502, self.all_sprites, self.enemy)
+        self.enemy3 = Enemy('assets/enemy0.png', 1100, 502, self.all_sprites, self.enemy)
 
         self.player = Hero('assets/idle0.png', 100, 250, self.all_sprites)
 
@@ -35,4 +37,33 @@ class Game:
 
     def update(self):
         self.all_sprites.update()
-        self.player.colisions(self.all_platforms, False)
+        self.player.colisions(self.all_platforms, False, 'platform')
+        self.player.colisions(self.crystal, True, 'crystal')
+        self.player.colisions(self.enemy, False, 'enemy')
+        self.HUD()
+
+    def HUD(self):
+        if self.player.colections == 1:
+            crystal = Obj('assets/icon_crystal.png', 136, 126, self.all_sprites)
+        elif self.player.colections == 2:
+            crystal = Obj('assets/icon_crystal.png', 160, 126, self.all_sprites)
+        elif self.player.colections == 3:
+            crystal = Obj('assets/icon_crystal.png', 185, 126, self.all_sprites)
+
+        if self.player.lifes == 3:
+            life = Obj('assets/icon_head.png', 140, 81, self.all_sprites)
+            life1 = Obj('assets/icon_head.png', 177, 81, self.all_sprites)
+            life2= Obj('assets/icon_head.png', 214, 81, self.all_sprites)
+        elif self.player.lifes == 2:
+            life = Obj('assets/icon_head.png', 140, 81, self.all_sprites)
+            life1 = Obj('assets/icon_head.png', 177, 81, self.all_sprites)
+            life2 = Obj('assets/icon_dead.png', 214, 81, self.all_sprites)
+        elif self.player.lifes == 1:
+            life = Obj('assets/icon_head.png', 140, 81, self.all_sprites)
+            life1 = Obj('assets/icon_dead.png', 177, 81, self.all_sprites)
+            life2 = Obj('assets/icon_dead.png', 214, 81, self.all_sprites)
+        else:
+            life = Obj('assets/icon_dead.png', 140, 81, self.all_sprites)
+            life1 = Obj('assets/icon_dead.png', 177, 81, self.all_sprites)
+            life2 = Obj('assets/icon_dead.png', 214, 81, self.all_sprites)
+
